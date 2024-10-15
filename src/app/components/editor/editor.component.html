@@ -1,0 +1,95 @@
+<div class="editor-container">
+  <div class="custom-editor">
+      <div class="custom-editor-toolbar mb-2">
+          <select>
+              <option>Styles</option>
+          </select>
+          <button class="btn btn-secondary" (click)="formatText('bold')">
+              <i class="bi bi-type-bold"></i>
+          </button>
+          <button class="btn btn-secondary" (click)="formatText('italic')">
+              <i class="bi bi-type-italic"></i>
+          </button>
+          <button class="btn btn-secondary" (click)="formatText('insertOrderedList')">
+              <i class="bi bi-list-ol"></i>
+          </button>
+          <button class="btn btn-secondary" (click)="formatText('insertUnorderedList')">
+              <i class="bi bi-list-ul"></i>
+          </button>
+          <button class="btn btn-secondary" (click)="formatText('createLink')">
+              <i class="bi bi-link"></i>
+          </button>
+          <button class="btn btn-secondary">
+              <i class="bi bi-image"></i>
+              <input type="file" (change)="onFileAttach($event)" class="d-none">
+          </button>
+      </div>
+
+      <div
+      id="editor-content"  
+      contenteditable="true"
+      class="form-control editor"
+      (input)="onContentChange($event)"
+      [innerHTML]="editorData.content"
+      placeholder="Write down here..."></div>
+  
+
+      <div *ngFor="let file of selectedFiles">
+          <img *ngIf="file.startsWith('data:image')" [src]="file" alt="Attached image" style="max-width: 200px;" />
+          <a *ngIf="!file.startsWith('data:image')" [href]="file" download>Download File</a>
+      </div>
+
+      <div class="save-options">
+        <button class="btn btn-primary mt-3 mb-2" (click)="saveAsPDF()">Save as PDF</button>
+        <button class="btn btn-secondary mt-3 mb-2" (click)="saveAsHTML()">Save as HTML</button>
+      </div>
+
+      <div class="mb-3">
+          <input
+              type="text"
+              [(ngModel)]="editorData.youtubeUrl"
+              class="form-control"
+              placeholder="Enter YouTube URL" />
+          <button class="btn btn-primary mt-2" (click)="checkYouTubeAccess(editorData.youtubeUrl)">Check YouTube Access</button>
+      </div>
+
+      
+      <div *ngIf="youtubeVideoId">
+        <iframe 
+            width="560" 
+            height="200" 
+            [src]="youtubeEmbedUrl" 
+            frameborder="0" 
+            allowfullscreen>
+        </iframe>
+    </div>
+
+  
+<div class="mb-3">
+  <input
+      type="text"
+      [(ngModel)]="editorData.linkedinUrl"
+      class="form-control"
+      placeholder="Enter LinkedIn URL" />
+</div>
+
+<div>
+  <p>LinkedIn URL: {{editorData.linkedinUrl}}</p>
+  <a [href]="editorData.linkedinUrl" target="_blank" rel="noopener noreferrer">View LinkedIn Profile</a>
+</div>
+
+
+  
+  <div *ngIf="linkedinEmbedUrl">
+    <iframe 
+        [src]="linkedinEmbedUrl" 
+        width="500" 
+        height="700" 
+        frameborder="0" 
+        allowfullscreen>
+    </iframe>
+  </div>
+  
+  
+  </div>
+</div>
